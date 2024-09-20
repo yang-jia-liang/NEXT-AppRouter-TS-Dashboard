@@ -1,19 +1,17 @@
 'use client'
 
 import {useSearchParams, usePathname, useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
 
 export default function Pagination({ pages }: { pages: number }) {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
 
-    const [page, setPage] = useState(1);
-    useEffect(() => {
+    const handlePageChange = (page: number) => {
         const params = new URLSearchParams(searchParams);
         params.set('currentPage', String(page));
         router.replace(`${pathname}?${params.toString()}`)
-    }, [page])
+    }
 
     return (
         <div className="flex gap-2">
@@ -22,7 +20,7 @@ export default function Pagination({ pages }: { pages: number }) {
                     <div
                         key={index}
                         className="border border-gray-800 border-solid px-2 cursor-pointer"
-                        onClick={() => setPage(index + 1)}
+                        onClick={() => handlePageChange(index + 1)}
                     >
                         {index + 1}
                     </div>

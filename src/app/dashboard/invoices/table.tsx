@@ -6,8 +6,14 @@ export default async function Table({ query, currentPage }:  { query: string, cu
     const data = await fetchFilteredInvoices(query, currentPage)
 
     return (
-        <table className="text-center border border-solid border-gray-800 mt-6">
-            <thead>
+        <div className=" mt-6">
+
+            <header>
+                <span>total: {data.length}</span>
+            </header>
+
+            <table className="text-center border border-solid border-gray-800">
+                <thead>
                 <tr>
                     <th>id</th>
                     <th>name</th>
@@ -15,9 +21,9 @@ export default async function Table({ query, currentPage }:  { query: string, cu
                     <th>status</th>
                     <th>date</th>
                 </tr>
-            </thead>
+                </thead>
 
-            <tbody>
+                <tbody>
                 {
                     data.map(row => (
                         <tr key={row.id}>
@@ -29,7 +35,8 @@ export default async function Table({ query, currentPage }:  { query: string, cu
                         </tr>
                     ))
                 }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     )
 }

@@ -1,8 +1,11 @@
 import {lusitana} from "@/assets/font";
 import clsx from "clsx";
+import {fetchCustomers} from "@/lib/data";
 import {createInvoice} from "@/lib/actions";
+import Link from "next/link";
 
-export default function CreateInvoice() {
+export default async function CreateInvoice() {
+    const customers = await fetchCustomers();
     const breadcrumbs = [
         { label: 'Invoices', href: '/dashboard/invoices' },
         {
@@ -11,8 +14,6 @@ export default function CreateInvoice() {
             active: true,
         },
     ]
-
-
 
     return (
         <div>
@@ -36,8 +37,13 @@ export default function CreateInvoice() {
                 <div>
                     <label>
                         Choose customer<br/>
-                        <select className="border border-solid border-gray-800" name="cutomer">
-                            <option value="1">1</option>
+                        <select className="border border-solid border-gray-800" name="customer_id">
+                            {
+                                customers.map(item => (
+                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                ))
+                            }
+
                         </select>
                     </label>
                 </div>
@@ -65,7 +71,12 @@ export default function CreateInvoice() {
 
 
                 <div className="flex gap-6 justify-end">
-                    <button className="border border-solid border-gray-800">cancel</button>
+                    <Link
+                        className="border border-solid border-gray-800"
+                        href="/dashboard/invoices"
+                    >
+                        Cancel
+                    </Link>
                     <button className="border border-solid border-gray-800" type="submit">create Invoice</button>
                 </div>
             </form>

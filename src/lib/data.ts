@@ -93,9 +93,11 @@ export async function fetchFilteredInvoices(query: string, currentPage: number) 
             FROM invoices
             JOIN customers ON customers.id = invoices.customer_id
             WHERE customers.name ILIKE ${`%${query}%`}
-            ORDER BY invoices.date ASC
+            ORDER BY invoices.date DESC
             LIMIT 10 OFFSET ${currentPage * 10 - 10}
         `
+
+        console.log('fetch data');
 
         return data.rows;
     } catch (error) {
@@ -114,5 +116,18 @@ export async function fetchInvoicesPages () {
     } catch (error) {
         console.error('Database Error:', error);
         throw new Error('Failed to fetch InvoicesPages.');
+    }
+}
+
+export async function fetchCustomers() {
+    try {
+        const data = await sql<Customer>`
+            SELECT * FROM customers
+        `
+
+        return data.rows;
+    } catch (error) {
+        console.error('Database Error:', error);
+        throw new Error('Failed to fetch Customers.');
     }
 }
